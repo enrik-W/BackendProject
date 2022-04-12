@@ -9,7 +9,6 @@ public class BuyOrder {
     @Id
     @GeneratedValue
     private long id;
-    private String orderNumber;
 
     @ManyToOne
     @JoinColumn

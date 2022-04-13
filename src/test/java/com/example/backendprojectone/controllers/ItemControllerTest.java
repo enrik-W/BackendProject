@@ -50,6 +50,9 @@ class ItemControllerTest {
 
     @Test
     void getItemByIdTest() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/items/:1").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"id\":1,\"name\":\"A thing\"}"));
     }
 
     @Test

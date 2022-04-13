@@ -13,4 +13,14 @@ public class Item {
     @GeneratedValue
     private long id;
     private String name;
+
+    //Only for tests
+    public Item(long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Item() {
+
+    }
 }

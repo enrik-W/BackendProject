@@ -17,4 +17,15 @@ public class BuyOrder {
     @ManyToOne
     @JoinColumn
     private Item item;
+
+    //Only for tests
+    public BuyOrder(long id, Customer customer, Item item) {
+        this.id = id;
+        this.customer = customer;
+        this.item = item;
+    }
+
+    public BuyOrder() {
+
+    }
 }

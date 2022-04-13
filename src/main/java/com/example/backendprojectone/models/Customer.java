@@ -14,4 +14,13 @@ public class Customer {
     private long id;
     private String name;
 
+    //Only for tests
+    public Customer(long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Customer() {
+
+    }
 }

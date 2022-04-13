@@ -61,6 +61,10 @@ class BuyOrderControllerTest {
     }
 
     @Test
-    void getAllBuyOrdersFromCustomerIdTest() {
+    void getAllBuyOrdersFromCustomerIdTest() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/orders/:10").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[{\"id\":1,\"customer\":{\"id\":10,\"name\":\"Henrik\"},\"item\":{\"id\":20,\"name\":\"A thing\"}}," +
+                        "{\"id\":4,\"customer\":{\"id\":10,\"name\":\"Henrik\"},\"item\":{\"id\":22,\"name\":\"Phone\"}}]"));
     }
 }

@@ -29,11 +29,11 @@ class CustomerControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @MockBean
-    private CustomerRepository mockCustomerRepository;
-
     @Autowired
     private ObjectMapper mapper;
+
+    @MockBean
+    private CustomerRepository mockCustomerRepository;
 
     @BeforeEach
     public void init() {
@@ -68,7 +68,7 @@ class CustomerControllerTest {
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/customers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(this.mapper.writeValueAsString(c4));
+                .content(mapper.writeValueAsString(c4));
 
         mvc.perform(mockRequest)
                 .andExpect(status().isOk())

@@ -2,6 +2,7 @@ package com.example.backendprojectone.controllers;
 
 import com.example.backendprojectone.models.Item;
 import com.example.backendprojectone.repositories.ItemRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
@@ -26,6 +28,9 @@ class ItemControllerTest {
 
     @Autowired
     private MockMvc mvc;
+
+    @Autowired
+    private ObjectMapper mapper;
 
     @MockBean
     private ItemRepository mockItemRepository;
@@ -57,7 +62,17 @@ class ItemControllerTest {
 
     @Test
     void addItemTest() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet");
+        Item i4 = new Item(4L, "Keyboard");
+        when(mockItemRepository.save(i4)).thenReturn(i4);
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/items")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(i4));
+
+        mvc.perform(mockRequest)
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"message\":\"Item added\",\"status\":true}"));
     }
 
     @Test

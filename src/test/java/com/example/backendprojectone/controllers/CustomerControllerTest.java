@@ -2,6 +2,7 @@ package com.example.backendprojectone.controllers;
 
 import com.example.backendprojectone.models.Customer;
 import com.example.backendprojectone.repositories.CustomerRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
@@ -17,6 +19,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -28,6 +31,9 @@ class CustomerControllerTest {
 
     @MockBean
     private CustomerRepository mockCustomerRepository;
+
+    @Autowired
+    private ObjectMapper mapper;
 
     @BeforeEach
     public void init() {
@@ -56,6 +62,16 @@ class CustomerControllerTest {
 
     @Test
     void addCustomerTest() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet");
+        Customer c4 = new Customer(4L, "Bob");
+        when(mockCustomerRepository.save(c4)).thenReturn(c4);
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/customers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(this.mapper.writeValueAsString(c4));
+
+        mvc.perform(mockRequest)
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"message\":\"Customer added\",\"status\":true}"));
     }
 }

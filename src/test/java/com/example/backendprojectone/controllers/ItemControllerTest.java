@@ -1,7 +1,11 @@
 package com.example.backendprojectone.controllers;
 
+import com.example.backendprojectone.models.BuyOrder;
+import com.example.backendprojectone.models.Customer;
 import com.example.backendprojectone.models.Item;
+import com.example.backendprojectone.repositories.BuyOrderRepository;
 import com.example.backendprojectone.repositories.ItemRepository;
+import com.example.backendprojectone.wrapper.CustomerItemWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,6 +38,9 @@ class ItemControllerTest {
 
     @MockBean
     private ItemRepository mockItemRepository;
+
+    @MockBean
+    private BuyOrderRepository mockBuyOrderRepository;
 
     @BeforeEach
     public void init() {
@@ -77,6 +84,19 @@ class ItemControllerTest {
 
     @Test
     void addBuyOrderTest() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet");
+        BuyOrder bo = new BuyOrder();
+        Customer tempCustomer = new Customer(1L, "Henrik");
+        Item tempItem = new Item();
+        CustomerItemWrapper ci = new CustomerItemWrapper(tempCustomer, tempItem);
+        when(mockBuyOrderRepository.save(bo)).thenReturn(bo);
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/items/buy")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(ci));
+
+        mvc.perform(mockRequest)
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"message\":\"Buy order added\",\"status\":true}"));
     }
 }

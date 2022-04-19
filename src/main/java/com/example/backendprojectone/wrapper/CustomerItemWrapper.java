@@ -8,4 +8,10 @@ import lombok.Data;
 public class CustomerItemWrapper {
     private Customer customer;
     private Item item;
+
+    //Only for test
+    public CustomerItemWrapper(Customer customer, Item item) {
+        this.customer = customer;
+        this.item = item;
+    }
 }

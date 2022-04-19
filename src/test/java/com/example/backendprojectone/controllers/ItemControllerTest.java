@@ -57,9 +57,11 @@ class ItemControllerTest {
 
     @Test
     void addItemTest() throws Exception {
+        throw new UnsupportedOperationException("Not supported yet");
     }
 
     @Test
     void addBuyOrderTest() throws Exception {
+        throw new UnsupportedOperationException("Not supported yet");
     }
 }

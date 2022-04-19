@@ -56,5 +56,6 @@ class CustomerControllerTest {
 
     @Test
     void addCustomerTest() throws Exception {
+        throw new UnsupportedOperationException("Not supported yet");
     }
 }

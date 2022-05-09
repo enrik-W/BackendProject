@@ -1,10 +1,8 @@
 package com.example.backendprojectone.models;
 
-import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Data
 public class BuyOrder {
     @Id
     @GeneratedValue
@@ -27,5 +25,13 @@ public class BuyOrder {
 
     public BuyOrder() {
 
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
     }
 }

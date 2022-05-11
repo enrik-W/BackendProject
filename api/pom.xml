@@ -55,7 +55,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <finalName>webshop-api</finalName>
                     <excludes>
                         <exclude>
                             <groupId>org.project-lombok</groupId>

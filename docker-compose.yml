@@ -1,6 +1,18 @@
 version: "3.3"
-servies:
-  api:
+  services:
+    api:
     build: api/
     ports:
       - "8080:8080"
+        db_host: "db"
+        depends_on:
+          - db
+        restart: unless-stopped
+        db:
+          image: "postgres:14.2-alpine"
+          environment:
+            POSTGRES_USER: webshop_user
+            POSTGRES_PASSWORD: webshop_password
+            POSTGRES_DB: webshop_db
+          ports:
+            - "127.0.0.1:5432:5432"

@@ -1,5 +1,8 @@
 package com.example.backendprojectone.response;
 
+import lombok.Data;
+
+@Data
 public class Response {
     private String message;
     private Boolean status;

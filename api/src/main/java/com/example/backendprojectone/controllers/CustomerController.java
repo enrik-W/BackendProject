@@ -2,7 +2,6 @@ package com.example.backendprojectone.controllers;
 
 import com.example.backendprojectone.models.Customer;
 import com.example.backendprojectone.repositories.CustomerRepository;
-
 import com.example.backendprojectone.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

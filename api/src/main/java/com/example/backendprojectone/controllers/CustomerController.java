@@ -22,11 +22,17 @@ public class CustomerController {
         return customerRepository.findById(id).get();
     }
 
-    @PostMapping()
+    @PostMapping("/sign_up")
     public Response addCustomer(@RequestBody Customer c) {
         Response res = new Response("Customer added", Boolean.FALSE);
         customerRepository.save(c);
         res.setStatus(Boolean.TRUE);
+        return res;
+    }
+
+    @PostMapping("login")
+    public Response login(@RequestBody Customer c) {
+        Response res = new Response("Login successful", Boolean.FALSE);
         return res;
     }
 }

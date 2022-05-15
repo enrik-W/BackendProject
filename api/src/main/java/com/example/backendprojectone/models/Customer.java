@@ -12,6 +12,7 @@ public class Customer {
     @GeneratedValue
     private long id;
     private String name;
+    private String password;
 
     //Only for tests
     public Customer(long id, String name) {

@@ -14,7 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class BCryptPasswordEncoderConfig extends WebSecurityConfigurerAdapter {
 
-    private CustomerService customerService;
+    private final CustomerService customerService;
 
     @Autowired
     public BCryptPasswordEncoderConfig(CustomerService customerService) {

@@ -34,8 +34,10 @@ public class CustomerController {
     }
 
     @PostMapping("login")
-    public Response login(@RequestBody Customer c) {
-        Response res = new Response("Login successful", Boolean.FALSE);
-        return res;
+    public String login(@RequestBody Customer c) {
+        if (customerService.login(c)) {
+            return "Log in successful";
+        }
+        return "No";
     }
 }

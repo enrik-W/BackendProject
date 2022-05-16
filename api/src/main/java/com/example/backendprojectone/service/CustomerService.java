@@ -16,8 +16,8 @@ import java.util.Collections;
 @Service
 public class CustomerService implements UserDetailsService {
 
-    private CustomerRepository customerRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final CustomerRepository customerRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public CustomerService(@Lazy CustomerRepository customerRepository, @Lazy BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -36,6 +36,11 @@ public class CustomerService implements UserDetailsService {
     public Customer findCustomerById(long id) {
         return customerRepository.findById(id)
                 .orElseThrow(() -> new NullPointerException("Customer not found"));
+    }
+
+    public boolean login(Customer c) {
+        return bCryptPasswordEncoder.matches(c.getPassword(),
+                customerRepository.findPasswordById(customerRepository.findIdByName(c.getName())));
     }
 
     @Override

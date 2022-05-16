@@ -5,6 +5,8 @@ import com.example.backendprojectone.repositories.CustomerRepository;
 import com.example.backendprojectone.response.Response;
 import com.example.backendprojectone.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,8 +28,9 @@ public class CustomerController {
     }
 
     @PostMapping("/sign_up")
-    public void addCustomer(@RequestBody Customer c) {
+    public ResponseEntity<String> addCustomer(@RequestBody Customer c) {
         customerService.registerCustomer(c);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Customer created");
     }
 
     @PostMapping("login")

@@ -3,6 +3,7 @@ package com.example.backendprojectone.controllers;
 import com.example.backendprojectone.models.Customer;
 import com.example.backendprojectone.repositories.CustomerRepository;
 import com.example.backendprojectone.response.Response;
+import com.example.backendprojectone.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController {
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private CustomerService customerService;
 
     @RequestMapping()
     public Iterable<Customer> getAllCustomers() {
@@ -19,15 +22,12 @@ public class CustomerController {
 
     @RequestMapping("/:{id}")
     public Customer getCustomerById(@PathVariable long id) {
-        return customerRepository.findById(id).get();
+        return customerService.findCustomerById(id);
     }
 
     @PostMapping("/sign_up")
-    public Response addCustomer(@RequestBody Customer c) {
-        Response res = new Response("Customer added", Boolean.FALSE);
-        customerRepository.save(c);
-        res.setStatus(Boolean.TRUE);
-        return res;
+    public void addCustomer(@RequestBody Customer c) {
+        customerService.registerCustomer(c);
     }
 
     @PostMapping("login")

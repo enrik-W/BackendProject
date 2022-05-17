@@ -4,6 +4,6 @@ import com.example.backendprojectone.models.Customer;
 import org.springframework.data.repository.CrudRepository;
 
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
-    String findPasswordById(long id);
-    long findIdByName(String name);
+    Customer findCustomerByName(String name);
+    boolean existsCustomerByName(String name);
 }

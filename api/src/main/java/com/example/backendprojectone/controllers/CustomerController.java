@@ -7,6 +7,7 @@ import com.example.backendprojectone.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,11 +34,19 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Customer created");
     }
 
-    @PostMapping("login")
-    public String login(@RequestBody Customer c) {
-        if (customerService.login(c)) {
+    @PostMapping("login") //TODO: Add jwt
+    public String login(@RequestBody Customer loginDetails) {
+        Customer customerInDatabase;
+
+        if (customerRepository.existsCustomerByName(loginDetails.getName())) {
+            customerInDatabase = customerRepository.findCustomerByName(loginDetails.getName());
+        } else {
+            return "Customer not found";
+        }
+
+        if (customerService.login(customerInDatabase, loginDetails.getPassword())) {
             return "Log in successful";
         }
-        return "No";
+        return "Wrong password";
     }
 }

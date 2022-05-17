@@ -38,9 +38,8 @@ public class CustomerService implements UserDetailsService {
                 .orElseThrow(() -> new NullPointerException("Customer not found"));
     }
 
-    public boolean login(Customer c) {
-        return bCryptPasswordEncoder.matches(c.getPassword(),
-                customerRepository.findPasswordById(customerRepository.findIdByName(c.getName())));
+    public boolean login(Customer customerInDatabase, CharSequence rawPassword) {
+        return bCryptPasswordEncoder.matches(rawPassword, customerInDatabase.getPassword());
     }
 
     @Override

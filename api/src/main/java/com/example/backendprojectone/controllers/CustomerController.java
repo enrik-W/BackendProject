@@ -2,12 +2,10 @@ package com.example.backendprojectone.controllers;
 
 import com.example.backendprojectone.models.Customer;
 import com.example.backendprojectone.repositories.CustomerRepository;
-import com.example.backendprojectone.response.Response;
 import com.example.backendprojectone.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

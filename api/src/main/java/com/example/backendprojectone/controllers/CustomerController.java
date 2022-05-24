@@ -1,11 +1,17 @@
 package com.example.backendprojectone.controllers;
 
+import com.example.backendprojectone.jwt.JwtUtil;
+import com.example.backendprojectone.models.AuthenticationResponse;
 import com.example.backendprojectone.models.Customer;
 import com.example.backendprojectone.repositories.CustomerRepository;
 import com.example.backendprojectone.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,6 +21,12 @@ public class CustomerController {
     private CustomerRepository customerRepository;
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtUtil jwtTokenUtil;
 
     @RequestMapping()
     public Iterable<Customer> getAllCustomers() {
@@ -32,19 +44,16 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Customer created");
     }
 
-    @PostMapping("login") //TODO: Add jwt
-    public String login(@RequestBody Customer loginDetails) {
-        Customer customerInDatabase;
-
-        if (customerRepository.existsCustomerByName(loginDetails.getName())) {
-            customerInDatabase = customerRepository.findCustomerByName(loginDetails.getName());
-        } else {
-            return "Customer not found";
+    @PostMapping("login")
+    public ResponseEntity<?> login(@RequestBody Customer customer) throws Exception {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(customer.getName(), customer.getPassword()));
+        } catch (BadCredentialsException e) {
+            throw new Exception("Incorrect username or password", e);
         }
-
-        if (customerService.login(customerInDatabase, loginDetails.getPassword())) {
-            return "Log in successful";
-        }
-        return "Wrong password";
+        final UserDetails userdetails = customerService.loadUserByUsername(customer.getName());
+        final String jwt = jwtTokenUtil.generateToken(userdetails);
+        return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 }

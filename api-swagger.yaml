@@ -10,6 +10,7 @@ paths:
     get:
       tags:
       - item-controller
+      summary: Return all items in database
       operationId: getAllItems
       responses:
         "200":
@@ -21,6 +22,7 @@ paths:
     post:
       tags:
       - item-controller
+      summary: Create a new item
       operationId: addItem
       requestBody:
         content:
@@ -29,8 +31,8 @@ paths:
               $ref: '#/components/schemas/Item'
         required: true
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Item created
           content:
             '*/*':
               schema:
@@ -41,6 +43,7 @@ paths:
     post:
       tags:
       - item-controller
+      summary: Create a new buy order
       operationId: addBuyOrder
       requestBody:
         content:
@@ -49,8 +52,8 @@ paths:
               $ref: '#/components/schemas/CustomerItemWrapper'
         required: true
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Buy order created
           content:
             '*/*':
               schema:
@@ -59,6 +62,7 @@ paths:
     post:
       tags:
       - customer-controller
+      summary: Create a new customer
       operationId: addCustomer
       requestBody:
         content:
@@ -67,8 +71,8 @@ paths:
               $ref: '#/components/schemas/Customer'
         required: true
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Customer created
           content:
             '*/*':
               schema:
@@ -77,6 +81,7 @@ paths:
     post:
       tags:
       - customer-controller
+      summary: Login with an existing customer
       operationId: login
       requestBody:
         content:
@@ -95,6 +100,7 @@ paths:
     get:
       tags:
       - buy-order-controller
+      summary: Return all buy orders
       operationId: getAllBuyOrders
       responses:
         "200":
@@ -107,6 +113,7 @@ paths:
     get:
       tags:
       - buy-order-controller
+      summary: Return all buy orders made by one customer
       operationId: getAllBuyOrdersFromCustomerId
       parameters:
       - name: customerId
@@ -126,6 +133,7 @@ paths:
     get:
       tags:
       - item-controller
+      summary: Return an item by id
       operationId: getItemById
       parameters:
       - name: id
@@ -145,6 +153,7 @@ paths:
     get:
       tags:
       - customer-controller
+      summary: Return all customers in database
       operationId: getAllCustomers
       responses:
         "200":
@@ -157,6 +166,7 @@ paths:
     get:
       tags:
       - customer-controller
+      summary: Return customer by id
       operationId: getCustomerById
       parameters:
       - name: id
